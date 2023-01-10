@@ -1,16 +1,35 @@
+import 'express-async-errors'
 import express from 'express';
 const app = express();
 import dotenv from 'dotenv';
 dotenv.config();
+import morgan from 'morgan';
 
 import connectDB from './db/connect.js';
 
+import authRouter from './routes/authRoutes.js'
+import jobsRouter from './routes/jobsRoutes.js'
+
 import notFoundMiddleware from './middleware/not-found.js';
 import errorHandlerMiddleware from './middleware/error-handler.js';
+
+if (process.env.NODE_ENV !== 'production') {
+    app.use(morgan('dev'));
+  }
+
+app.use(express.json())
+
 app.get('/', (req, res) => {
     //throw new Error('error')
-    res.send('Welcome!');
+    res.json({msg:'Welcome!'});
 });
+app.get('/api/v1', (req, res) => {
+    //throw new Error('error')
+    res.json({msg:'api'});
+});
+
+app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/jobs', jobsRouter);
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
@@ -26,3 +45,5 @@ const start = async () =>{
         console.log(error)
     }
 }
+
+start()

@@ -1,13 +1,12 @@
+
 import React from 'react'
-import Error from './Error'
-import { Logo } from '../components';
+import { useEffect } from 'react'
 
 const Dashboard = () => {
+  
   return (
     <h1>
-      <Error />
-      <Logo />
-      Dashboard
+      Dashboard Page
     </h1>
   )
 }
