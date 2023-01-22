@@ -1,34 +1,28 @@
-import React from 'react'
 import { useState, useEffect } from 'react';
 import { Logo, FormRow, Alert } from '../components';
 import Wrapper from '../assets/wrappers/RegisterPage';
-import { useAppContext} from '../context/appContext';
+import { useAppContext } from '../context/appContext';
 import { useNavigate } from 'react-router-dom';
-// global context and useNavigate later
-
 const initialState = {
   name: '',
   email: '',
   password: '',
   isMember: true,
 };
-// if possible prefer local state
-// global state
 
 const Register = () => {
   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
-  const { user, isLoading, showAlert, displayAlert, registerUser, loginUser, setupUser } = useAppContext()
+  const { user, isLoading, showAlert, displayAlert, setupUser } =
+    useAppContext();
 
-  // global context and useNavigate later
   const toggleMember = () => {
-      setValues({ ...values, isMember: !values.isMember });
+    setValues({ ...values, isMember: !values.isMember });
   };
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-
   const onSubmit = (e) => {
     e.preventDefault();
     const { name, email, password, isMember } = values;
@@ -60,50 +54,61 @@ const Register = () => {
     }
   }, [user, navigate]);
 
-
   return (
     <Wrapper className='full-page'>
       <form className='form' onSubmit={onSubmit}>
         <Logo />
         <h3>{values.isMember ? 'Login' : 'Register'}</h3>
-        {showAlert && <Alert /> }
-        {/* name imput */}
+        {showAlert && <Alert />}
+        {/* name input */}
         {!values.isMember && (
           <FormRow
-          type='text'
-          name='name'
-          value={values.name}
-          handleChange={handleChange}
+            type='text'
+            name='name'
+            value={values.name}
+            handleChange={handleChange}
           />
         )}
 
-        {/* email imput */}
+        {/* email input */}
         <FormRow
-        type='email'
-        name='email'
-        value={values.email}
-        handleChange={handleChange}
+          type='email'
+          name='email'
+          value={values.email}
+          handleChange={handleChange}
         />
-        {/* password imput */}
+        {/* password input */}
         <FormRow
-        type='password'
-        name='password'
-        value={values.password}
-        handleChange={handleChange}
+          type='password'
+          name='password'
+          value={values.password}
+          handleChange={handleChange}
         />
-
         <button type='submit' className='btn btn-block' disabled={isLoading}>
           submit
         </button>
-      <p>
-        {values.isMember ? 'Not a member yet?' : 'Already a member?'}
-        <button type='button' onClick={toggleMember} className='member-btn'>
-        {values.isMember ? 'Register' : 'Login'}
+        <button
+          type='button'
+          className='btn btn-block btn-hipster'
+          disabled={isLoading}
+          onClick={() => {
+            setupUser({
+              currentUser: { email: 'testUser@test.com', password: 'secret' },
+              endPoint: 'login',
+              alertText: 'Login Successful! Redirecting...',
+            });
+          }}
+        >
+          {isLoading ? 'loading...' : 'demo app'}
         </button>
-      </p>
+        <p>
+          {values.isMember ? 'Not a member yet?' : 'Already a member?'}
+          <button type='button' onClick={toggleMember} className='member-btn'>
+            {values.isMember ? 'Register' : 'Login'}
+          </button>
+        </p>
       </form>
     </Wrapper>
   );
-}
-
-export default Register
+};
+export default Register;
