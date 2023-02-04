@@ -1,7 +1,7 @@
-import React from "react";
-import { FormRow, FormRowSelect, Alert } from '../../components';
-import { useAppContext } from '../../context/appContext';
-import Wrapper from '../../assets/wrappers/DashboardFormPage';
+import { FormRow, FormRowSelect, Alert } from '../../components'
+import { useAppContext } from '../../context/appContext'
+import Wrapper from '../../assets/wrappers/DashboardFormPage'
+
 const AddJob = () => {
   const {
     isLoading,
@@ -18,29 +18,27 @@ const AddJob = () => {
     handleChange,
     clearValues,
     createJob,
-    editJob
-  } = useAppContext();
+    editJob,
+  } = useAppContext()
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-  
+    e.preventDefault()
+
     if (!position || !company || !jobLocation) {
-      displayAlert();
-      return;
+      displayAlert()
+      return
     }
     if (isEditing) {
-      editJob();
-      return;
+      editJob()
+      return
     }
-    createJob();
-  };
-
+    createJob()
+  }
   const handleJobInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    //console.log(`${name}:${value}`);
-    handleChange({ name: e.target.name, value: e.target.value });
-  };
+    const name = e.target.name
+    const value = e.target.value
+    handleChange({ name, value })
+  }
 
   return (
     <Wrapper>
@@ -109,6 +107,6 @@ const AddJob = () => {
       </form>
     </Wrapper>
   )
-};
+}
 
-export default AddJob;
+export default AddJob
